@@ -1,12 +1,13 @@
 %define major 0
 %define libname %mklibname c-icap %{major}
+%define develname %mklibname c-icap -d
 
 %define epoch 2
 
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	030606
-Release:	%mkrel 5
+Release:	%mkrel 6
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -42,14 +43,17 @@ Group:		System/Libraries
 %description -n %{libname}
 Shared libraries for %{name}
 
-%package -n	%{libname}-devel
+%package -n	%{develname}
 Summary:	Development library and header files for the %{name} library
 Group:		Development/C
 Requires:	%{libname} = %{epoch}:%{version}-%{release}
-Provides:	%{name}-devel lib%{name}-devel
-Obsoletes:	%{name}-devel lib%{name}-devel
+Provides:	%{name}-devel = %{epoch}:%{version}-%{release}
+Provides:	lib%{name}-devel = %{epoch}:%{version}-%{release}
+Obsoletes:	%{name}-devel
+Obsoletes:	lib%{name}-devel
+Obsoletes:	%{mklibname c-icap 0 -d}
 
-%description -n %{libname}-devel
+%description -n %{develname}
 This package contains the static %{libname} library and its header
 files.
 
@@ -194,7 +198,7 @@ touch %{buildroot}%{_var}/log/icapd/access.log
 %defattr(-,root,root)
 %attr(0755,root,root) %{_libdir}/*.so.*
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %dir %{_includedir}/c_icap
 %attr(0644,root,root) %{_includedir}/c_icap/*
@@ -203,5 +207,3 @@ touch %{buildroot}%{_var}/log/icapd/access.log
 %attr(0644,root,root) %{_libdir}/*.a
 %attr(0755,root,root) %{_libdir}/*.so
 %attr(0644,root,root) %{_libdir}/*.la
-
-
