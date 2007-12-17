@@ -31,7 +31,6 @@ BuildRequires:	libidn-devel
 BuildRequires:	libgmp-devel
 BuildRequires:	openssl-devel
 Epoch:		%{epoch}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 An ICAP server coded in C
