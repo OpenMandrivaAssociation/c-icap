@@ -6,19 +6,19 @@
 
 Summary:	An ICAP server coded in C
 Name:		c-icap
-Version:	030606
-Release:	%mkrel 8
+Version:	180407
+Release:	%mkrel 1
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
-Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}rc1.tar.bz2
+Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
 Source1:	icapd.init
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
-Patch0:		c_icap-030606-mdv_conf.diff
-Patch1:		c_icap-030606-makefile.patch
+Patch0:		c_icap-mdv_conf.diff
+Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
-Patch3:		c_icap-030606rc1-libclamav-1.0.40.patch
+Patch3:		c_icap-clamav-0.93_build_fix.diff
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
@@ -84,7 +84,7 @@ Modules for the c-icap-server
 
 %prep
 
-%setup -q -n c_icap-%{version}rc1
+%setup -q -n c_icap-%{version}
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
