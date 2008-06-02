@@ -151,7 +151,7 @@ touch %{buildroot}%{_var}/log/icapd/access.log
 %postun -n %{libname} -p /sbin/ldconfig
 
 %pre server
-%_pre_useradd icapd %{_localstatedir}/icapd /bin/sh
+%_pre_useradd icapd %{_localstatedir}/lib/icapd /bin/sh
 
 %post server
 %_post_service icapd
