@@ -146,9 +146,13 @@ chrpath -d %{buildroot}%{_bindir}/*
 touch %{buildroot}%{_var}/log/icapd/server.log
 touch %{buildroot}%{_var}/log/icapd/access.log
 
+%if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
+%endif
 
 %pre server
 %_pre_useradd icapd %{_localstatedir}/lib/icapd /bin/sh
