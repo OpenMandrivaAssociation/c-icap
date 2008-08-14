@@ -2,23 +2,22 @@
 %define libname %mklibname c-icap %{major}
 %define develname %mklibname c-icap -d
 
-%define epoch 2
+%define epoch 3
 
 Summary:	An ICAP server coded in C
 Name:		c-icap
-Version:	180407
-Release:	%mkrel 2
+Version:	060708
+Release:	%mkrel 1
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
-Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
+Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}rc1.tar.gz
 Source1:	icapd.init
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
 Patch0:		c_icap-mdv_conf.diff
 Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
-Patch3:		c_icap-clamav-0.93_build_fix.diff
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
@@ -31,7 +30,7 @@ BuildRequires:	libidn-devel
 BuildRequires:	libgmp-devel
 BuildRequires:	openssl-devel
 Epoch:		%{epoch}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 An ICAP server coded in C
@@ -84,11 +83,10 @@ Modules for the c-icap-server
 
 %prep
 
-%setup -q -n c_icap-%{version}
+%setup -q -n c_icap-%{version}rc1
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
-%patch3 -p0
 
 find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
@@ -111,6 +109,8 @@ cp %{SOURCE3} icapd.logrotate
 export WANT_AUTOCONF_2_5=1
 libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --foreign --add-missing --copy
 
+export LIBS="-lpthread -ldl"
+
 %configure2_5x \
     --enable-static \
     --enable-shared \
@@ -120,7 +120,7 @@ libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --foreign --add-m
 %make
 
 %install
-[ -n "%{buildroot}" -a "%{buildroot}" != / ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %makeinstall_std
 
@@ -169,7 +169,7 @@ touch %{buildroot}%{_var}/log/icapd/access.log
 %_postun_userdel icapd
 
 %clean
-[ -n "%{buildroot}" -a "%{buildroot}" != / ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files server
 %defattr(-,root,root)
