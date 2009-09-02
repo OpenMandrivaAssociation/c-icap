@@ -7,11 +7,11 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	060708
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
-Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}rc1.tar.gz
+Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}rc3.tar.gz
 Source1:	icapd.init
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
@@ -83,7 +83,7 @@ Modules for the c-icap-server
 
 %prep
 
-%setup -q -n c_icap-%{version}rc1
+%setup -q -n c_icap-%{version}rc3
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
@@ -112,7 +112,7 @@ libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --foreign --add-m
 export LIBS="-lpthread -ldl"
 
 %configure2_5x \
-    --enable-static \
+    --disable-static \
     --enable-shared \
     --with-clamav=%{_prefix} \
     --with-perl=%{_bindir}/perl
@@ -146,6 +146,10 @@ chrpath -d %{buildroot}%{_bindir}/*
 touch %{buildroot}%{_var}/log/icapd/server.log
 touch %{buildroot}%{_var}/log/icapd/access.log
 
+# cleanup
+rm -f %{buildroot}%{_libdir}/c_icap/*.*a
+rm -f %{buildroot}%{_libdir}/*.*a
+
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
 %endif
@@ -155,7 +159,7 @@ touch %{buildroot}%{_var}/log/icapd/access.log
 %endif
 
 %pre server
-%_pre_useradd icapd %{_localstatedir}/lib/icapd /bin/sh
+%_pre_useradd icapd /var/lib/icapd /bin/sh
 
 %post server
 %_post_service icapd
@@ -204,8 +208,4 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %dir %{_includedir}/c_icap
 %attr(0644,root,root) %{_includedir}/c_icap/*
-%attr(0644,root,root) %{_libdir}/c_icap/*.a
-%attr(0644,root,root) %{_libdir}/c_icap/*.la
-%attr(0644,root,root) %{_libdir}/*.a
 %attr(0755,root,root) %{_libdir}/*.so
-%attr(0644,root,root) %{_libdir}/*.la
