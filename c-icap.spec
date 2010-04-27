@@ -30,6 +30,8 @@ BuildRequires:	libbzip2-devel
 BuildRequires:	libidn-devel
 BuildRequires:	libgmp-devel
 BuildRequires:	openssl-devel
+BuildRequires:  doxygen
+BuildRequires:  db4-devel
 Epoch:		%{epoch}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
