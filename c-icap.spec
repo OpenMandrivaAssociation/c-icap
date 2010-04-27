@@ -2,19 +2,20 @@
 %define libname %mklibname c-icap %{major}
 %define develname %mklibname c-icap -d
 
-%define epoch 3
+%define epoch 4
 
 Summary:	An ICAP server coded in C
 Name:		c-icap
-Version:	060708
-Release:	%mkrel 5
+Version:	0.1.1
+Release:	%mkrel 0.pre1
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
-Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}rc3.tar.gz
+Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}-pre1.tar.gz
 Source1:	icapd.init
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
+#Source4:	http://prdownloads.sourceforge.net/c-icap/c_icap_modules-%{version}-pre1.tar.gz
 Patch0:		c_icap-mdv_conf.diff
 Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
@@ -24,7 +25,7 @@ BuildRequires:	dos2unix
 BuildRequires:	automake1.7
 BuildRequires:	autoconf2.5
 BuildRequires:	perl-devel
-BuildRequires:	libcurl-devel
+BuildRequires:	curl-devel
 BuildRequires:	libbzip2-devel
 BuildRequires:	libidn-devel
 BuildRequires:	libgmp-devel
@@ -83,7 +84,9 @@ Modules for the c-icap-server
 
 %prep
 
-%setup -q -n c_icap-%{version}rc3
+
+##%setup -q -b 4 -n c_icap-%{version}-pre1
+%setup -q -n c_icap-%{version}-pre1
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
@@ -110,14 +113,29 @@ export WANT_AUTOCONF_2_5=1
 libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --foreign --add-missing --copy
 
 export LIBS="-lpthread -ldl"
+export ICAP_DIR=`pwd`
 
 %configure2_5x \
     --disable-static \
     --enable-shared \
     --with-clamav=%{_prefix} \
-    --with-perl=%{_bindir}/perl
+    --with-perl=%{_bindir}/perl \
+    --with-c-icap=$ICAP_DIR
 
 %make
+
+#cd ..
+#cd c_icap_modules-0.1.1-pre1/#
+#libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --foreign --add-missing --copy
+
+#%configure \
+#    --disable-static \
+#    --enable-shared \
+#    --with-clamav=%{_prefix} \
+#    --with-perl=%{_bindir}/perl \
+#    --with-c-icap=$ICAP_DIR
+
+#%make
 
 %install
 rm -rf %{buildroot}
