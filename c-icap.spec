@@ -156,11 +156,13 @@ chrpath -d %{buildroot}%{_sbindir}/*
 #chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
 
 for l in %{buildroot}%{_bindir}/* ; do
- file $l | grep "not stripped" 
+ file $l |grep "not stripped" 
  if [ $? -eq 0 ]; then
   chrpath -d $l
+  continue
  else
   echo "not need to strip"
+  continue
  fi
 done
 
