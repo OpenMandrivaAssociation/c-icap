@@ -154,7 +154,7 @@ chrpath -d %{buildroot}%{_sbindir}/*
 #chrpath -d %{buildroot}%{_bindir}/c-icap-mkbdb
 #chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
 
-for $l in %{buildroot}%{_bindir}/*
+for l in %{buildroot}%{_bindir}/*
  grep "not stripped" $l
  if [ $? -eq 0 ]; then
   chrpath -d $l
