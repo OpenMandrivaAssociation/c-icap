@@ -217,6 +217,12 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %attr(0755,root,root) %{_bindir}/c-icap-client
 %attr(0755,root,root) %{_bindir}/c-icap-stretch
+%attr(0755,root,root) %{_bindir}/c-icap-mkbdb
+%attr(0755,root,root) %{_mandir}/man8/c-icap-client.8.lzma
+%attr(0755,root,root) %{_mandir}/man8/c-icap-mkbdb.8.lzma
+%attr(0755,root,root) %{_mandir}/man8/c-icap-stretch.8.lzma
+%attr(0755,root,root) %{_mandir}/man8/c-icap.8.lzma
+
 
 
 %files modules
@@ -233,3 +239,8 @@ rm -rf %{buildroot}
 %dir %{_includedir}/c_icap
 %attr(0644,root,root) %{_includedir}/c_icap/*
 %attr(0755,root,root) %{_libdir}/*.so
+%attr(0755,root,root) %{_bindir}/c-icap-config
+%attr(0755,root,root) %{_bindir}/c-icap-libicapapi-config
+%attr(0755,root,root) %{_mandir}/man8/c-icap-config.8.lzma
+%attr(0755,root,root) %{_mandir}/man8/c-icap-libicapapi-config.8.lzma
+
