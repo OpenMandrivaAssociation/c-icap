@@ -32,6 +32,7 @@ BuildRequires:	libgmp-devel
 BuildRequires:	openssl-devel
 BuildRequires:  doxygen
 BuildRequires:  db4-devel
+BuildRequires:  file
 Epoch:		%{epoch}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -155,7 +156,7 @@ chrpath -d %{buildroot}%{_sbindir}/*
 #chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
 
 for l in %{buildroot}%{_bindir}/* ; do
- grep "not stripped" $l
+ file $l | grep "not stripped" 
  if [ $? -eq 0 ]; then
   chrpath -d $l
  fi
