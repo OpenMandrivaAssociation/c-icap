@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.1
-Release:	%mkrel 0.1pre
+Release:	%mkrel 0.pre1.1
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -148,7 +148,10 @@ install -m0755 contrib/get_file.pl %{buildroot}%{_var}/www/cgi-bin/get_file.pl
 
 # nuke rpath
 chrpath -d %{buildroot}%{_sbindir}/*
-chrpath -d %{buildroot}%{_bindir}/*
+chrpath -d %{buildroot}%{_bindir}/c-icap
+chrpath -d %{buildroot}%{_bindir}/c-icap-client
+chrpath -d %{buildroot}%{_bindir}/c-icap-mkbdb
+chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
 
 touch %{buildroot}%{_var}/log/icapd/server.log
 touch %{buildroot}%{_var}/log/icapd/access.log
