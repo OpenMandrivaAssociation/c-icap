@@ -159,6 +159,8 @@ for l in %{buildroot}%{_bindir}/* ; do
  file $l | grep "not stripped" 
  if [ $? -eq 0 ]; then
   chrpath -d $l
+ else
+  echo "not need to strip"
  fi
 done
 
