@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.1
-Release:	%mkrel 0.pre2.3
+Release:	%mkrel 0.pre2.4
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -234,7 +234,7 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
-#%attr(0755,root,root) %{_libdir}/*.so.*
+%attr(0755,root,root) %{_libdir}/*.so.*
 
 %files -n %{develname}
 %defattr(-,root,root)
