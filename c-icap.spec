@@ -148,10 +148,18 @@ install -m0755 contrib/get_file.pl %{buildroot}%{_var}/www/cgi-bin/get_file.pl
 
 # nuke rpath
 chrpath -d %{buildroot}%{_sbindir}/*
-chrpath -d %{buildroot}%{_bindir}/c-icap
-chrpath -d %{buildroot}%{_bindir}/c-icap-client
-chrpath -d %{buildroot}%{_bindir}/c-icap-mkbdb
-chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
+
+#chrpath -d %{buildroot}%{_bindir}/c-icap
+#chrpath -d %{buildroot}%{_bindir}/c-icap-client
+#chrpath -d %{buildroot}%{_bindir}/c-icap-mkbdb
+#chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
+
+for $l in %{buildroot}%{_bindir}/*
+ grep "not stripped" $l
+ if [ $? -eq 0 ]; then
+  chrpath -d $l
+ fi
+done
 
 touch %{buildroot}%{_var}/log/icapd/server.log
 touch %{buildroot}%{_var}/log/icapd/access.log
