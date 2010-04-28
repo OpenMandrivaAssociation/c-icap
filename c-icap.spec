@@ -153,7 +153,7 @@ chrpath -d %{buildroot}%{_sbindir}/*
 #chrpath -d %{buildroot}%{_bindir}/c-icap
 chrpath -d %{buildroot}%{_bindir}/c-icap-client
 #chrpath -d %{buildroot}%{_bindir}/c-icap-mkbdb
-#chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
+chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
 
 #for l in %{buildroot}%{_bindir}/* ; do
 # file $l |grep "not stripped" 
@@ -215,8 +215,9 @@ rm -rf %{buildroot}
 
 %files client
 %defattr(-,root,root)
-%attr(0755,root,root) %{_bindir}/icap-client
-%attr(0755,root,root) %{_bindir}/icap-stretch
+%attr(0755,root,root) %{_bindir}/c-icap-client
+%attr(0755,root,root) %{_bindir}/c-icap-stretch
+
 
 %files modules
 %defattr(-,root,root)
