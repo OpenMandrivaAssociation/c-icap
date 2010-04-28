@@ -151,20 +151,20 @@ install -m0755 contrib/get_file.pl %{buildroot}%{_var}/www/cgi-bin/get_file.pl
 chrpath -d %{buildroot}%{_sbindir}/*
 
 #chrpath -d %{buildroot}%{_bindir}/c-icap
-#chrpath -d %{buildroot}%{_bindir}/c-icap-client
+chrpath -d %{buildroot}%{_bindir}/c-icap-client
 #chrpath -d %{buildroot}%{_bindir}/c-icap-mkbdb
 #chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
 
-for l in %{buildroot}%{_bindir}/* ; do
- file $l |grep "not stripped" 
- if [ $? -eq 0 ]; then
-  chrpath -d $l
-  continue
- else
-  echo "not need to strip"
-  continue
- fi
-done
+#for l in %{buildroot}%{_bindir}/* ; do
+# file $l |grep "not stripped" 
+# if [ $? -eq 0 ]; then
+#  chrpath -d $l
+#  continue
+# else
+#  echo "not need to strip"
+#  continue#
+# fi
+#done
 
 touch %{buildroot}%{_var}/log/icapd/server.log
 touch %{buildroot}%{_var}/log/icapd/access.log
