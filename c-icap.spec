@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.1
-Release:	%mkrel 0.pre2.1
+Release:	%mkrel 0.pre2.2
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -19,6 +19,7 @@ Source3:	icapd.logrotate
 Patch0:		c_icap-mdv_conf.diff
 Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
+Patch3:		c_icap-ldflags.diff
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
@@ -93,6 +94,7 @@ Modules for the c-icap-server
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 
 find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
@@ -212,6 +214,7 @@ rm -rf %{buildroot}
 %attr(0755,icapd,icapd) %dir %{_var}/run/icapd
 %ghost %attr(0644,icapd,icapd) %{_var}/log/icapd/server.log
 %ghost %attr(0644,icapd,icapd) %{_var}/log/icapd/access.log
+%attr(0755,root,root) %{_mandir}/man8/c-icap.8.lzma
 
 %files client
 %defattr(-,root,root)
@@ -221,7 +224,6 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_mandir}/man8/c-icap-client.8.lzma
 %attr(0755,root,root) %{_mandir}/man8/c-icap-mkbdb.8.lzma
 %attr(0755,root,root) %{_mandir}/man8/c-icap-stretch.8.lzma
-%attr(0755,root,root) %{_mandir}/man8/c-icap.8.lzma
 
 
 
