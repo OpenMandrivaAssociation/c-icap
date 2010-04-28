@@ -225,7 +225,7 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
-%attr(0755,root,root) %{_libdir}/*.so.*
+#%attr(0755,root,root) %{_libdir}/*.so.*
 
 %files -n %{develname}
 %defattr(-,root,root)
