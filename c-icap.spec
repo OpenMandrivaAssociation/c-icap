@@ -126,18 +126,18 @@ export ICAP_DIR=`pwd`
 
 %make
 
-#cd ..
-#cd c_icap_modules-0.1.1-pre1/#
-#libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --foreign --add-missing --copy
+##cd ..
+##cd c_icap_modules-0.1.1-pre1/#
+##libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --foreign --add-missing --copy
 
-#%configure \
-#    --disable-static \
-#    --enable-shared \
-#    --with-clamav=%{_prefix} \
-#    --with-perl=%{_bindir}/perl \
-#    --with-c-icap=$ICAP_DIR
+##%configure \
+##    --disable-static \
+##    --enable-shared \
+##    --with-clamav=%{_prefix} \
+##    --with-perl=%{_bindir}/perl \
+##    --with-c-icap=$ICAP_DIR
 
-#%make
+##%make
 
 %install
 rm -rf %{buildroot}
