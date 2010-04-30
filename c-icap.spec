@@ -7,11 +7,11 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.1
-Release:	%mkrel 0.pre2.4
+Release:	%mkrel 0.pre2.6
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
-Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}-pre1.tar.gz
+Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}-pre2.tar.gz
 Source1:	icapd.init
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
@@ -19,7 +19,7 @@ Source3:	icapd.logrotate
 Patch0:		c_icap-mdv_conf.diff
 Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
-Patch3:		c_icap-ldflags.diff
+Patch3:		c_icap-makefile.diff
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
@@ -90,7 +90,7 @@ Modules for the c-icap-server
 
 
 ##%setup -q -b 4 -n c_icap-%{version}-pre1
-%setup -q -n c_icap-%{version}-pre1
+%setup -q -n c_icap-%{version}-pre2
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
@@ -132,8 +132,7 @@ make
 %install
 rm -rf %{buildroot}
 
-%makeinstall_std
-
+%makeinstall_std CONFIGDIR=%{_sysconfdir}/icapd
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/sysconfig
 install -d %{buildroot}%{_sysconfdir}/logrotate.d
@@ -204,8 +203,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc AUTHORS COPYING TODO
 %attr(0755,root,root) %{_initrddir}/icapd
-%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/c-icap.conf
-%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/c-icap.magic
+%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/icapd/c-icap.conf
+%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/icapd/c-icap.magic
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/sysconfig/icapd
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/logrotate.d/icapd
 %attr(0755,root,root) %{_sbindir}/icapd
