@@ -7,19 +7,17 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.1
-Release:	%mkrel 0.pre2.7
+Release:	%mkrel 0.pr3.1
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
-Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}-pre2.tar.gz
+Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}-pre3.tar.gz
 Source1:	icapd.init
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
-#Source4:	http://prdownloads.sourceforge.net/c-icap/c_icap_modules-%{version}-pre1.tar.gz
 Patch0:		c_icap-mdv_conf.diff
 Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
-Patch3:		c_icap-makefile.diff
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
@@ -88,13 +86,10 @@ Modules for the c-icap-server
 
 %prep
 
-
-##%setup -q -b 4 -n c_icap-%{version}-pre1
-%setup -q -n c_icap-%{version}-pre2
+%setup -q -n c_icap-%{version}-pre3
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
-%patch3 -p0
 
 find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
