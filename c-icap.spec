@@ -7,11 +7,11 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.1
-Release:	%mkrel 0.pre3.2
+Release:	%mkrel 1
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
-Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}-pre3.tar.gz
+Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
 Source1:	icapd.init
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
@@ -86,7 +86,7 @@ Modules for the c-icap-server
 
 %prep
 
-%setup -q -n c_icap-%{version}-pre3
+%setup -q -n c_icap-%{version}
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
@@ -118,9 +118,7 @@ export ICAP_DIR=`pwd`
 %configure2_5x \
     --disable-static \
     --enable-shared \
-    --with-clamav=%{_prefix} \
     --with-perl=%{_bindir}/perl \
-    --with-c-icap=$ICAP_DIR
 
 make
 
@@ -208,16 +206,16 @@ rm -rf %{buildroot}
 %attr(0755,icapd,icapd) %dir %{_var}/run/icapd
 %ghost %attr(0644,icapd,icapd) %{_var}/log/icapd/server.log
 %ghost %attr(0644,icapd,icapd) %{_var}/log/icapd/access.log
-%attr(0755,root,root) %{_mandir}/man8/c-icap.8.lzma
+%attr(0755,root,root) %{_mandir}/man8/c-icap.8.*
 
 %files client
 %defattr(-,root,root)
 %attr(0755,root,root) %{_bindir}/c-icap-client
 %attr(0755,root,root) %{_bindir}/c-icap-stretch
 %attr(0755,root,root) %{_bindir}/c-icap-mkbdb
-%attr(0755,root,root) %{_mandir}/man8/c-icap-client.8.lzma
-%attr(0755,root,root) %{_mandir}/man8/c-icap-mkbdb.8.lzma
-%attr(0755,root,root) %{_mandir}/man8/c-icap-stretch.8.lzma
+%attr(0755,root,root) %{_mandir}/man8/c-icap-client.8.*
+%attr(0755,root,root) %{_mandir}/man8/c-icap-mkbdb.8.*
+%attr(0755,root,root) %{_mandir}/man8/c-icap-stretch.8.*
 
 
 
@@ -237,6 +235,6 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_libdir}/*.so
 %attr(0755,root,root) %{_bindir}/c-icap-config
 %attr(0755,root,root) %{_bindir}/c-icap-libicapapi-config
-%attr(0755,root,root) %{_mandir}/man8/c-icap-config.8.lzma
-%attr(0755,root,root) %{_mandir}/man8/c-icap-libicapapi-config.8.lzma
+%attr(0755,root,root) %{_mandir}/man8/c-icap-config.8.*
+%attr(0755,root,root) %{_mandir}/man8/c-icap-libicapapi-config.8.*
 
