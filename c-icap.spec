@@ -91,7 +91,7 @@ Modules for the c-icap-server
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
-%patch3 -p0
+#patch3 -p0
 
 find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
