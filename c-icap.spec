@@ -6,7 +6,7 @@
 
 Summary:	An ICAP server coded in C
 Name:		c-icap
-Version:	0.1.3
+Version:	0.1.4
 Release:	%mkrel 1
 License:	GPL
 Group:		System/Servers
@@ -22,8 +22,8 @@ Patch3:		fix_lookuptable.patch
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
-BuildRequires:	automake1.7
-BuildRequires:	autoconf2.5
+BuildRequires:	automake
+BuildRequires:	autoconf
 BuildRequires:	perl-devel
 BuildRequires:	curl-devel
 BuildRequires:	libbzip2-devel
@@ -112,7 +112,7 @@ cp %{SOURCE3} icapd.logrotate
 
 %build
 export WANT_AUTOCONF_2_5=1
-libtoolize --copy --force; aclocal-1.7; autoconf; automake-1.7 --foreign --add-missing --copy
+libtoolize --copy --force; aclocal; autoconf; automake --foreign --add-missing --copy
 
 export LIBS="-lpthread -ldl"
 export ICAP_DIR=`pwd`
