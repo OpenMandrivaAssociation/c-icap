@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.5
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -31,7 +31,7 @@ BuildRequires:	libidn-devel
 BuildRequires:	libgmp-devel
 BuildRequires:	openssl-devel
 BuildRequires:  doxygen
-BuildRequires:  db4-devel
+BuildRequires:  db-devel
 BuildRequires:  file
 Epoch:		%{epoch}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
