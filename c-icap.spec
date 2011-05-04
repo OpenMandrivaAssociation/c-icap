@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.5
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -33,6 +33,7 @@ BuildRequires:	openssl-devel
 BuildRequires:  doxygen
 BuildRequires:  db-devel
 BuildRequires:  file
+BuildRequires:  openldap-devel
 Epoch:		%{epoch}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -121,6 +122,7 @@ export ICAP_DIR=`pwd`
     --disable-static \
     --enable-shared \
     --with-perl=%{_bindir}/perl \
+    --with-ldap
 
 make
 
