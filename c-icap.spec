@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.6
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -173,12 +173,14 @@ touch %{buildroot}%{_var}/log/icapd/access.log
 rm -f %{buildroot}%{_libdir}/c_icap/*.*a
 rm -f %{buildroot}%{_libdir}/*.*a
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
+%if "%{distribution}" == "Mandriva Linux"
+	%if %mdkversion < 200900
+	%post -n %{libname} -p /sbin/ldconfig
+	%endif
 
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
+	%if %mdkversion < 200900
+	%postun -n %{libname} -p /sbin/ldconfig
+	%endif
 %endif
 
 %pre server
