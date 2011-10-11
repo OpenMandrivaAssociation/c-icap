@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.7
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -39,7 +39,12 @@ Epoch:		%{epoch}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
-An ICAP server coded in C
+c-icap is an implementation of an ICAP server. It can be used with HTTP 
+proxies that support the ICAP protocol to implement content adaptation 
+and filtering services 
+
+Most of the commercial HTTP proxies must support the ICAP protocol. The 
+open source Squid 3.x proxy server supports it 
 
 %package -n	%{libname}
 Summary:	Shared libraries for %{name}
