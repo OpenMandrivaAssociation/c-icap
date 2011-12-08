@@ -110,7 +110,7 @@ for i in `find . -type d -name CVS` `find . -type f -name .cvs\*` `find . -type 
 done
 
 # strip away annoying ^M
-find -type f | grep -v "\.gif" | grep -v "\.png" | grep -v "\.jpg" | xargs dos2unix -U
+find -type f | grep -v "\.gif" | grep -v "\.png" | grep -v "\.jpg" | xargs dos2unix
 
 chmod 644 AUTHORS COPYING TODO
 
