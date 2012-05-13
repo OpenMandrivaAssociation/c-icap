@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.1.7
-Release:	%mkrel 2
+Release:	3
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
