@@ -1,0 +1,11 @@
+--- configure.in.orig	2006-12-29 23:52:00.000000000 +0100
++++ configure.in	2006-12-29 23:53:43.000000000 +0100
+@@ -173,7 +173,7 @@
+ 
+ if test a"$perlbin" != a; then 
+ 	perlcore=`$perlbin -MConfig -e 'print $Config{archlib}'`/CORE;
+-        perllib=`$perlbin -MConfig -e 'print $Config{libs}'`;
++        perllib="";
+         perlccflags=`$perlbin -MConfig -e 'print $Config{ccflags}'`;
+ 	perlldflags=`$perlbin -MConfig -e 'print $Config{ccdlflags}'`;
+ fi

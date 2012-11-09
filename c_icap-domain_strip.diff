@@ -1,0 +1,31 @@
+--- http_auth.c	2010-12-26 16:40:21.000000000 +0100
++++ http_auth.c.dlucio	2011-05-12 15:48:45.000000000 +0200
+@@ -26,6 +26,7 @@
+ #include "acl.h"
+ #include "lookup_table.h"
+ #include "debug.h"
++#include <string.h>
+ 
+ char *DEFAULT_AUTH_METHOD="basic";
+ char *REMOTE_PROXY_USER_HEADER = "X-Authenticated-User";
+@@ -74,6 +75,20 @@
+ 		 strncpy(req->user, username, MAX_USERNAME_LEN);
+ 		 req->user[MAX_USERNAME_LEN] = '\0';;
+ 	     }
++	     
++	     //Modificacion para quitar '/' y '\'
++	    char* cFound;
++        cFound = strchr(username,92);
++        if(cFound != NULL)
++             strncpy(req->user,cFound + 1,MAX_USERNAME_LEN);
++        else
++        {
++            cFound = strchr(username,'/');
++            if(cFound != NULL)
++                 strncpy(req->user,cFound + 1,MAX_USERNAME_LEN);
++        }
++	     //Termina Modificación
++	     
+ 	     return CI_ACCESS_ALLOW;
+ 	 }
+      }

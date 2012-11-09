@@ -1,0 +1,108 @@
+--- c-icap.conf.in	2010-05-29 18:23:07.000000000 +0200
++++ c-icap.conf.in.dlucio	2010-05-31 19:49:01.000000000 +0200
+@@ -10,7 +10,7 @@
+ #	The file to store the pid of the main process of the c-icap server.
+ # Default:
+ #	PidFile /var/run/c-icap/c-icap.pid
+-PidFile /var/run/c-icap/c-icap.pid
++PidFile /var/run/icapd/icapd.pid
+ 
+ # TAG: CommandsSocket
+ # Format: CommandsSocket socket_file
+@@ -18,7 +18,7 @@
+ #	The path of file to use as control socket for c-icap
+ # Default:
+ #	CommandsSocket /var/run/c-icap/c-icap.ctl
+-CommandsSocket /var/run/c-icap/c-icap.ctl
++CommandsSocket /var/run/icapd/icapd.ctl
+ 
+ # TAG: Timeout
+ # Format: Timeout seconds
+@@ -119,6 +119,7 @@
+ #	No value
+ # Example:
+ #	User wwwrun
++User icapd
+ 
+ # TAG: Group
+ # Format: Group groupname
+@@ -129,6 +130,7 @@
+ #	No value
+ # Example:
+ #	Group nogroup
++Group icapd
+ 
+ # TAG: ServerAdmin
+ # Format: ServerAdmin admin_mail
+@@ -137,7 +139,7 @@
+ #	about this server (logs, info service, etc)
+ # Default:
+ #	No value
+-ServerAdmin you@your.address
++ServerAdmin root@localhost
+ 
+ # TAG: ServerName
+ # Format: ServerName aServerName
+@@ -146,7 +148,7 @@
+ #	server (logs, info service, etc)
+ # Default:
+ #	No value
+-ServerName YourServerName
++ServerName localhost
+ 
+ # TAG: TmpDir
+ # Format: TmpDir dir
+@@ -181,7 +183,7 @@
+ #	The location of modules
+ # Default:
+ #	ModulesDir @prefix@/lib/c_icap
+-ModulesDir @prefix@/lib/c_icap
++ModulesDir @libdir@/c_icap
+ 
+ # TAG: ServicesDir
+ # Format: ServicesDir dir
+@@ -189,7 +191,7 @@
+ #	The location of services
+ # Default:
+ #	ServicesDir @prefix@/lib/c_icap
+-ServicesDir @prefix@/lib/c_icap
++ServicesDir @libdir@/c_icap
+ 
+ # TAG: TemplateDir
+ # Format: TemplateDir dir
+@@ -199,7 +201,7 @@
+ # Default:
+ #	No value
+ # Example:
+-TemplateDir @prefix@/share/c_icap/templates/
++TemplateDir /etc/icapd/c-icap.magic
+ 
+ # TAG: TemplateDefaultLanguage
+ # Format: TemplateDefaultLanguage lang
+@@ -222,7 +224,7 @@
+ #	It can be used more than once to use multiple magic files.
+ # Default:
+ #	LoadMagicFile @prefix@/etc/c-icap.magic
+-LoadMagicFile @prefix@/etc/c-icap.magic
++LoadMagicFile /etc/icapd/c-icap.magic
+ 
+ # TAG: RemoteProxyUsers
+ # Format: RemoteProxyUsers onoff
+@@ -444,7 +446,7 @@
+ #	information about the c-icap server.
+ # Default:
+ #	ServerLog @prefix@/var/log/server.log
+-ServerLog @prefix@/var/log/server.log
++ServerLog /var/log/icapd/server.log
+ 
+ # TAG: AccessLog
+ # Format: AccessLog LogFile [LogFormat] [[!]acl1] [[!]acl2] [...]
+@@ -459,7 +461,7 @@
+ #	AccessLog @prefix@/var/log/access.log
+ # Example:
+ #	AccessLog @prefix@/var/log/access.log MyFormat all
+-AccessLog @prefix@/var/log/access.log
++AccessLog /var/log/icapd/access.log
+ 
+ # TAG: Logger
+ # Format: Logger LoggerName
