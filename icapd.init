@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# Startup script for the c_icap daemon
+#
+# chkconfig: 345 56 44
+# description: An ICAP server coded in C
+# processname: icapd
+# pidfile: /var/run/icapd/icap.pid
+# config: /etc/icapd/c-icap.conf
+
+### BEGIN INIT INFO
+# Provides: icapd
+# Required-Start: $network
+# Required-Stop: $network
+# Should-Start: $named 
+# Should-Stop: $named 
+# Short-Description: Starts the c-icap daemon
+# Description: c-icap is a linux icap daemon that supports pluging architecture.
+### END INIT INFO
+
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check for and source configuration file otherwise set defaults
+[ -f /etc/sysconfig/icapd ] && . /etc/sysconfig/icapd
+
+[ -x /usr/sbin/icapd ] || exit 0
+
+# See how we were called.
+case "$1" in
+  start)
+	echo -n "Starting icapd: "
+	daemon icapd ${ICAPD_OPTIONS}
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/icapd
+	;;
+  stop)
+	echo -n "Stopping icapd: "
+	killproc icapd
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/icapd
+	;;
+  status)
+	status icapd
+	RETVAL=$?
+	;;
+  restart|reload)
+	$0 stop
+	$0 start
+	RETVAL=$?
+	;;
+  *)
+	echo "Usage: icapd {start|stop|status|restart|reload}"
+	exit 1
+esac
+
+exit $RETVAL
+

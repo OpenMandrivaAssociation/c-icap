@@ -1,0 +1,3 @@
+
+ICAPD_OPTIONS="-f /etc/icapd/c-icap.conf"
+

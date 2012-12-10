@@ -6,8 +6,8 @@
 
 Summary:	An ICAP server coded in C
 Name:		c-icap
-Version:	0.1.7
-Release:	3
+Version:	0.2.3
+Release:	%mkrel 1
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -26,25 +26,24 @@ BuildRequires:	dos2unix
 BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	perl-devel
-BuildRequires:	curl-devel
+BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	libbzip2-devel
 BuildRequires:	libidn-devel
-BuildRequires:	libgmp-devel
-BuildRequires:	openssl-devel
+BuildRequires:	gmp-devel
+BuildRequires:	pkgconfig(openssl)
 BuildRequires:  doxygen
 BuildRequires:  db-devel
 BuildRequires:  file
 BuildRequires:  openldap-devel
 Epoch:		%{epoch}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 c-icap is an implementation of an ICAP server. It can be used with HTTP 
 proxies that support the ICAP protocol to implement content adaptation 
-and filtering services 
+and filtering services
 
 Most of the commercial HTTP proxies must support the ICAP protocol. The 
-open source Squid 3.x proxy server supports it 
+open source Squid 3.x proxy server supports it
 
 %package -n	%{libname}
 Summary:	Shared libraries for %{name}
@@ -110,8 +109,8 @@ for i in `find . -type d -name CVS` `find . -type f -name .cvs\*` `find . -type 
 done
 
 # strip away annoying ^M
-find -type f | grep -v "\.gif" | grep -v "\.png" | grep -v "\.jpg" | xargs dos2unix
-
+# find -type f | grep -v "\.gif" | grep -v "\.png" | grep -v "\.jpg" | xargs dos2unix -U
+# find -type f -exec dos2unix --skipbin -U -n {} {} \;
 chmod 644 AUTHORS COPYING TODO
 
 cp %{SOURCE1} icapd.init
@@ -134,8 +133,6 @@ export ICAP_DIR=`pwd`
 make
 
 %install
-rm -rf %{buildroot}
-
 %makeinstall_std CONFIGDIR=%{_sysconfdir}/icapd
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/sysconfig
@@ -178,16 +175,6 @@ touch %{buildroot}%{_var}/log/icapd/access.log
 rm -f %{buildroot}%{_libdir}/c_icap/*.*a
 rm -f %{buildroot}%{_libdir}/*.*a
 
-%if "%{distribution}" == "Mandriva Linux"
-	%if %mdkversion < 200900
-	%post -n %{libname} -p /sbin/ldconfig
-	%endif
-
-	%if %mdkversion < 200900
-	%postun -n %{libname} -p /sbin/ldconfig
-	%endif
-%endif
-
 %pre server
 %_pre_useradd icapd /var/lib/icapd /bin/sh
 
@@ -202,11 +189,7 @@ rm -f %{buildroot}%{_libdir}/*.*a
 %postun server
 %_postun_userdel icapd
 
-%clean
-rm -rf %{buildroot}
-
 %files server
-%defattr(-,root,root)
 %doc AUTHORS COPYING TODO
 %attr(0755,root,root) %{_initrddir}/icapd
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/icapd/c-icap.conf
@@ -222,7 +205,6 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_mandir}/man8/c-icap.8.*
 
 %files client
-%defattr(-,root,root)
 %attr(0755,root,root) %{_bindir}/c-icap-client
 %attr(0755,root,root) %{_bindir}/c-icap-stretch
 %attr(0755,root,root) %{_bindir}/c-icap-mkbdb
@@ -233,16 +215,13 @@ rm -rf %{buildroot}
 
 
 %files modules
-%defattr(-,root,root)
 %dir %{_libdir}/c_icap
 %attr(0755,root,root) %{_libdir}/c_icap/*.so
 
 %files -n %{libname}
-%defattr(-,root,root)
 %attr(0755,root,root) %{_libdir}/*.so.*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %dir %{_includedir}/c_icap
 %attr(0644,root,root) %{_includedir}/c_icap/*
 %attr(0755,root,root) %{_libdir}/*.so
@@ -250,4 +229,3 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_bindir}/c-icap-libicapapi-config
 %attr(0755,root,root) %{_mandir}/man8/c-icap-config.8.*
 %attr(0755,root,root) %{_mandir}/man8/c-icap-libicapapi-config.8.*
-

@@ -1,0 +1,5 @@
+/var/log/icapd/*.log {
+    create 644 icapd icapd
+	monthly
+	compress
+}
