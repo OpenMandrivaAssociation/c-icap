@@ -27,8 +27,8 @@ BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig(libcurl)
-BuildRequires:	libbzip2-devel
-BuildRequires:	libidn-devel
+BuildRequires:	bzip2-devel = 1.0.6-8
+BuildRequires:	pkgconfig(libidn)
 BuildRequires:	gmp-devel
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:  doxygen
