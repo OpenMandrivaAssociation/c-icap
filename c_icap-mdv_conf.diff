@@ -5,7 +5,7 @@
  # Default:
  #	PidFile /var/run/c-icap/c-icap.pid
 -PidFile /var/run/c-icap/c-icap.pid
-+PidFile /var/run/icapd/icapd.pid
++PidFile /run/icapd/icapd.pid
  
  # TAG: CommandsSocket
  # Format: CommandsSocket socket_file
@@ -14,7 +14,7 @@
  # Default:
  #	CommandsSocket /var/run/c-icap/c-icap.ctl
 -CommandsSocket /var/run/c-icap/c-icap.ctl
-+CommandsSocket /var/run/icapd/icapd.ctl
++CommandsSocket /run/icapd/icapd.ctl
  
  # TAG: Timeout
  # Format: Timeout seconds
