@@ -7,14 +7,15 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.2.3
-Release:	3
+Release:	4
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
 Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
-Source1:	icapd.init
+Source1:	c-icap.service
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
+Source4:	c-icap-tmpfiles.conf
 Patch0:		c_icap-mdv_conf.diff
 Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
@@ -27,7 +28,7 @@ BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig(libcurl)
-BuildRequires:	bzip2-devel = 1.0.6-8
+BuildRequires:	bzip2-devel
 BuildRequires:	pkgconfig(libidn)
 BuildRequires:	gmp-devel
 BuildRequires:	pkgconfig(openssl)
@@ -36,6 +37,8 @@ BuildRequires:  db-devel
 BuildRequires:  file
 BuildRequires:  openldap-devel
 Epoch:		%{epoch}
+Requires(pre,post):	rpm-helper
+Requires(postun,preun):	rpm-helper
 
 %description
 c-icap is an implementation of an ICAP server. It can be used with HTTP 
@@ -75,21 +78,21 @@ Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Suggests:	c-icap-modules-extra
 %description	server
-An ICAP server coded in C
+An ICAP server coded in C.
 
 %package	client
 Summary:	An ICAP client coded in C
 Group:          System/Servers
 
 %description	client
-An ICAP client coded in C
+An ICAP client coded in C.
 
 %package	modules
 Summary:	Modules for the c-icap-server
 Group:          System/Servers
 
 %description	modules
-Modules for the c-icap-server
+Modules for the c-icap-server.
 
 %prep
 
@@ -113,7 +116,6 @@ done
 # find -type f -exec dos2unix --skipbin -U -n {} {} \;
 chmod 644 AUTHORS COPYING TODO
 
-cp %{SOURCE1} icapd.init
 cp %{SOURCE2} icapd.sysconfig
 cp %{SOURCE3} icapd.logrotate
 
@@ -134,20 +136,18 @@ make
 
 %install
 %makeinstall_std CONFIGDIR=%{_sysconfdir}/icapd
-install -d %{buildroot}%{_initrddir}
-install -d %{buildroot}%{_sysconfdir}/sysconfig
-install -d %{buildroot}%{_sysconfdir}/logrotate.d
-install -d %{buildroot}%{_sbindir}
-install -d %{buildroot}%{_var}/log/icapd
-install -d %{buildroot}%{_var}/run/icapd
-install -d %{buildroot}%{_var}/www/cgi-bin
+install -d -m0755 %{buildroot}%{_sysconfdir}/sysconfig
+install -d -m0755 %{buildroot}%{_sysconfdir}/logrotate.d
+install -d -m0755 %{buildroot}%{_sbindir}
+install -d -m0755 %{buildroot}%{_var}/log/icapd
+install -d -m0755 %{buildroot}%{_var}/www/cgi-bin
 
 mv %{buildroot}%{_bindir}/c-icap %{buildroot}%{_sbindir}/icapd
-
-install -m0755 icapd.init %{buildroot}%{_initrddir}/icapd
+install -D -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/icapd.service
 install -m0644 icapd.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/icapd
 install -m0644 icapd.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/icapd
 install -m0755 contrib/get_file.pl %{buildroot}%{_var}/www/cgi-bin/get_file.pl
+install -D -p -m 0644 %{SOURCE4} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
 # nuke rpath
 chrpath -d %{buildroot}%{_sbindir}/*
@@ -180,8 +180,8 @@ rm -f %{buildroot}%{_libdir}/*.*a
 
 %post server
 %_post_service icapd
-%create_ghostfile %{_var}/log/icapd/server.log icapd icapd 0644
-%create_ghostfile %{_var}/log/icapd/access.log icapd icapd 0644
+#%create_ghostfile %{_var}/log/icapd/server.log icapd icapd 0644
+#%create_ghostfile %{_var}/log/icapd/access.log icapd icapd 0644
 
 %preun server
 %_preun_service icapd
@@ -191,7 +191,8 @@ rm -f %{buildroot}%{_libdir}/*.*a
 
 %files server
 %doc AUTHORS COPYING TODO
-%attr(0755,root,root) %{_initrddir}/icapd
+%{_unitdir}/icapd.service
+%{_tmpfilesdir}/%{name}.conf
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/icapd/c-icap.conf
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/icapd/c-icap.magic
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/sysconfig/icapd

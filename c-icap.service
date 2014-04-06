@@ -1,0 +1,13 @@
+[Unit]
+Description=ICAP Server
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+PIDFile=/run/icapd/icapd.pid
+EnvironmentFile=/etc/sysconfig/icapd
+ExecStart=/usr/sbin/icapd $ICAPD_OPTIONS
+ExecStop=killproc icapd
+
+[Install]
+WantedBy=multi-user.target
