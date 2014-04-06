@@ -28,7 +28,7 @@ BuildRequires:	automake
 BuildRequires:	autoconf
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig(libcurl)
-BuildRequires:	pkgconfig(bzip2)‎
+BuildRequires:	bzip2-devel
 BuildRequires:	pkgconfig(libidn)
 BuildRequires:	gmp-devel
 BuildRequires:	pkgconfig(openssl)
