@@ -1,4 +1,4 @@
-%define major 2
+%define major 3
 %define libname %mklibname c-icap %{major}
 %define develname %mklibname c-icap -d
 
@@ -6,8 +6,8 @@
 
 Summary:	An ICAP server coded in C
 Name:		c-icap
-Version:	0.2.3
-Release:	5
+Version:	0.3.3
+Release:	1
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
