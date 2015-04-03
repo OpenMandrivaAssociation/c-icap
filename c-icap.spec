@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	2
+Release:	3
 License:	GPL
 Group:		System/Servers
 URL:		http://sourceforge.net/projects/c-icap/
@@ -200,7 +200,6 @@ rm -f %{buildroot}%{_libdir}/*.*a
 %attr(0755,root,root) %{_sbindir}/icapd
 %attr(0755,root,root) %{_var}/www/cgi-bin/get_file.pl
 %attr(0755,icapd,icapd) %dir %{_var}/log/icapd
-%attr(0755,icapd,icapd) %dir %{_var}/run/icapd
 %ghost %attr(0644,icapd,icapd) %{_var}/log/icapd/server.log
 %ghost %attr(0644,icapd,icapd) %{_var}/log/icapd/access.log
 %attr(0755,root,root) %{_mandir}/man8/c-icap.8.*
