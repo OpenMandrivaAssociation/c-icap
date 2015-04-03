@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   c_icap-0.3.3.tar.gz: 2800f403ea4bf1a516b64c8beb9a3a0c4e4b664c
+sources:
+  c_icap-0.3.5.tar.gz: 189db804146a5654105e8bf6791b5f6eebd5f068
