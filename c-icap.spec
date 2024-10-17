@@ -10,7 +10,7 @@ Version:	0.3.5
 Release:	4
 License:	GPL
 Group:		System/Servers
-URL:		http://sourceforge.net/projects/c-icap/
+URL:		https://sourceforge.net/projects/c-icap/
 Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
 Source1:	c-icap.service
 Source2:	icapd.sysconfig
