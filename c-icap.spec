@@ -21,6 +21,8 @@ Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
 Patch3:		fix_lookuptable.patch
 Patch4:		c_icap-domain_strip.diff
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
