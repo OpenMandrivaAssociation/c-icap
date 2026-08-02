@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	12
+Release:	13
 License:	GPLv2+
 Group:		System/Servers
 URL:		https://sourceforge.net/projects/c-icap/
@@ -24,8 +24,8 @@ Patch3:		fix_lookuptable.patch
 Patch4:		c_icap-domain_strip.diff
 Patch5:		c_icap-c23-release-auth-header.patch
 Patch6:		c_icap-modern-c-fixes.patch
-BuildRequires:	libtool
 BuildRequires:	libtool-base
+BuildRequires:	slibtool
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
@@ -127,13 +127,14 @@ cp %{SOURCE3} icapd.logrotate
 
 %build
 export WANT_AUTOCONF_2_5=1
-# GNU libtool (not slibtool): utils/ still hard-depends on ../libicapapi.la
-libtoolize --copy --force; aclocal; autoconf; automake --foreign --add-missing --copy
+# OMV %configure auto-runs slibtoolize when LIBTOOL is in configure.ac
+libtoolize --copy --force || slibtoolize --force
+aclocal; autoconf; automake --foreign --add-missing --copy
 
 export LIBS="-lpthread -ldl"
 export ICAP_DIR=`pwd`
 # c-icap 0.3.5 is pre-C99/C23; keep it building under modern clang
-# LTO breaks this tree's libtool link of libicapapi.la under clang
+# LTO + this libtool tree left libicapapi.la missing for utils/
 export CFLAGS="%{optflags} -std=gnu17 -fno-lto -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-int-conversion -Wno-deprecated-non-prototype"
 export LDFLAGS="%{build_ldflags} -fno-lto"
 
@@ -143,8 +144,36 @@ export LDFLAGS="%{build_ldflags} -fno-lto"
     --with-perl=%{_bindir}/perl \
     --with-ldap
 
+# Drop redundant -shared from libtool LDFLAGS (breaks some slibtool versions)
+sed -i 's/-shared -version-info/-version-info/g' Makefile
+
 # Sequential: ensure libicapapi.la exists before utils/ recurses
 make -j1 libicapapi.la
+# If slibtool omitted the .la wrapper, synthesize a minimal one for utils/
+if [ ! -f libicapapi.la ]; then
+	so=$(ls .libs/libicapapi.so.* 2>/dev/null | head -1)
+	if [ -z "$so" ]; then
+		echo "ERROR: libicapapi shared library was not built" >&2
+		exit 1
+	fi
+	soname=$(basename "$so")
+	cat > libicapapi.la <<EOF
+# Generated stub for slibtool-built library (utils/ still expects .la)
+dlname='$soname'
+library_names='$soname $soname libicapapi.so'
+old_library=''
+dependency_libs=' -lz -lbz2 -ldl -lpthread'
+current=3
+age=0
+revision=5
+installed=no
+shouldnotlink=no
+dlopen=''
+dlpreopen=''
+libdir='%{_libdir}'
+EOF
+	ln -sf "$soname" .libs/libicapapi.so 2>/dev/null || true
+fi
 make -j1
 
 %install
