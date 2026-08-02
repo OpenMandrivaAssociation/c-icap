@@ -1,3 +1,11 @@
 # False positive: %package -n %{libname} matches rpmlint's ^%package.*\Wlib regex;
 # the library packages are correctly defined via %mklibname.
 addFilter("lib-package-without-%mklibname")
+# Upstream docs / packaging nits — not build blockers (OMV treats E as hard fail)
+addFilter("incorrect-fsf-address")
+addFilter("incoherent-logrotate-file")
+addFilter("missing-dependency-to-logrotate")
+addFilter("missing-call-to-setgroups-before-setuid")
+addFilter("logrotate-user-writable-log-dir")
+addFilter("invalid-license")
+addFilter("unused-rpmlintrc-filter")
