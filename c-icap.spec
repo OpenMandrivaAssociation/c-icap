@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	16
+Release:	17
 License:	GPLv2+
 Group:		System/Servers
 URL:		https://sourceforge.net/projects/c-icap/
@@ -173,24 +173,12 @@ install -m0644 icapd.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/icapd
 install -m0755 contrib/get_file.pl %{buildroot}%{_var}/www/cgi-bin/get_file.pl
 install -D -p -m 0644 %{SOURCE4} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
-# nuke rpath
-chrpath -d %{buildroot}%{_sbindir}/*
-
-#chrpath -d %{buildroot}%{_bindir}/c-icap
-chrpath -d %{buildroot}%{_bindir}/c-icap-client
-#chrpath -d %{buildroot}%{_bindir}/c-icap-mkbdb
-chrpath -d %{buildroot}%{_bindir}/c-icap-stretch
-
-#for l in %{buildroot}%{_bindir}/* ; do
-# file $l |grep "not stripped" 
-# if [ $? -eq 0 ]; then
-#  chrpath -d $l
-#  continue
-# else
-#  echo "not need to strip"
-#  continue#
-# fi
-#done
+# Drop RPATH from ELF binaries only (config scripts are not ELF)
+find %{buildroot} -type f -print0 | while IFS= read -r -d '' f; do
+	if file -b "$f" | grep -q '^ELF'; then
+		chrpath -d "$f" 2>/dev/null || true
+	fi
+done
 
 touch %{buildroot}%{_var}/log/icapd/server.log
 touch %{buildroot}%{_var}/log/icapd/access.log
