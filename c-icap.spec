@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	13
+Release:	14
 License:	GPLv2+
 Group:		System/Servers
 URL:		https://sourceforge.net/projects/c-icap/
@@ -127,7 +127,7 @@ cp %{SOURCE3} icapd.logrotate
 
 %build
 export WANT_AUTOCONF_2_5=1
-# OMV %configure auto-runs slibtoolize when LIBTOOL is in configure.ac
+# OMV configure macros invoke slibtoolize when LIBTOOL is in configure.ac
 libtoolize --copy --force || slibtoolize --force
 aclocal; autoconf; automake --foreign --add-missing --copy
 
