@@ -1,0 +1,10 @@
+--- include/commands.h
++++ include/commands.h
+@@ -69,6 +69,7 @@
+ ci_command_t *find_command(const char *cmd_line);
+ int commands_execute_start_child();
+ int commands_execute_stop_child();
++void commands_exec_scheduled(void);
+ 
+ #ifdef __cplusplus
+ }

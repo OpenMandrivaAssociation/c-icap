@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	10
+Release:	11
 License:	GPLv2+
 Group:		System/Servers
 URL:		https://sourceforge.net/projects/c-icap/
@@ -23,6 +23,7 @@ Patch2:		c_icap-030606-perllib_fix.patch
 Patch3:		fix_lookuptable.patch
 Patch4:		c_icap-domain_strip.diff
 Patch5:		c_icap-c23-release-auth-header.patch
+Patch6:		c_icap-modern-c-fixes.patch
 BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	clamav-devel
@@ -106,6 +107,7 @@ Modules for the c-icap-server.
 #patch3 -p0
 %patch -P 4 -p0 -b domain_strip
 %patch -P 5 -p0
+%patch -P 6 -p0
 
 find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
@@ -129,8 +131,8 @@ libtoolize --copy --force; aclocal; autoconf; automake --foreign --add-missing -
 
 export LIBS="-lpthread -ldl"
 export ICAP_DIR=`pwd`
-# c-icap 0.3.5 is pre-C23; empty () prototypes mean "no args" under gnu23
-export CFLAGS="%{optflags} -std=gnu17"
+# c-icap 0.3.5 is pre-C99/C23; keep it building under modern clang
+export CFLAGS="%{optflags} -std=gnu17 -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-int-conversion -Wno-deprecated-non-prototype"
 
 %configure2_5x \
     --disable-static \
