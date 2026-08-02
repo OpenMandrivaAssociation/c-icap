@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	6
+Release:	7
 License:	GPL
 Group:		System/Servers
 URL:		https://sourceforge.net/projects/c-icap/
@@ -99,11 +99,11 @@ Modules for the c-icap-server.
 %prep
 
 %setup -q -n c_icap-%{version}
-%patch0 -p0
-%patch1 -p0
-%patch2 -p0
+%patch -P 0 -p0
+%patch -P 1 -p0
+%patch -P 2 -p0
 #patch3 -p0
-%patch4 -p0 -b domain_strip
+%patch -P 4 -p0 -b domain_strip
 
 find . -type d -perm 0700 -exec chmod 755 {} \;
 find . -type f -perm 0555 -exec chmod 755 {} \;
