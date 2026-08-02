@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	15
+Release:	16
 License:	GPLv2+
 Group:		System/Servers
 URL:		https://sourceforge.net/projects/c-icap/
@@ -132,10 +132,11 @@ aclocal; autoconf; automake --foreign --add-missing --copy
 
 export LIBS="-lpthread -ldl"
 export ICAP_DIR=`pwd`
-# c-icap 0.3.5 is pre-C99/C23; keep it building under modern clang
+# c-icap 0.3.5 is pre-C99/C23; modules are plugins with intentional undefs
 export CFLAGS="%{optflags} -std=gnu17 -fno-lto -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-int-conversion -Wno-deprecated-non-prototype"
-export LDFLAGS="%{build_ldflags} -fno-lto"
-# Project ./libtool is a config stub; OMV expects real driver via LIBTOOL=
+# --no-undefined breaks loadable modules (symbols come from main binary)
+export LDFLAGS="$(echo %{build_ldflags} | sed 's/-Wl,--no-undefined//g') -fno-lto"
+# Project ./libtool is a config stub; drive builds with slibtool-shared
 export LIBTOOL=slibtool-shared
 
 %configure2_5x \
@@ -147,10 +148,12 @@ export LIBTOOL=slibtool-shared
 # Drop redundant -shared from libtool LDFLAGS
 sed -i 's/-shared -version-info/-version-info/g' Makefile
 
-# Re-apply flags after configure macros reset them; keep LIBTOOL
+# Re-apply flags after configure macros reset them
 export CFLAGS="%{optflags} -std=gnu17 -fno-lto -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-int-conversion -Wno-deprecated-non-prototype"
-export LDFLAGS="%{build_ldflags} -fno-lto"
+export LDFLAGS="$(echo %{build_ldflags} | sed 's/-Wl,--no-undefined//g') -fno-lto"
 export LIBTOOL=slibtool-shared
+# Also scrub no-undefined baked into Makefiles by configure
+find . -name Makefile -print0 | xargs -0 sed -i 's/-Wl,--no-undefined//g'
 
 make -j1 LIBTOOL=slibtool-shared
 
