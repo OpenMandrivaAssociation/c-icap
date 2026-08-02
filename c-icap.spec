@@ -7,7 +7,7 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	11
+Release:	12
 License:	GPLv2+
 Group:		System/Servers
 URL:		https://sourceforge.net/projects/c-icap/
@@ -24,8 +24,8 @@ Patch3:		fix_lookuptable.patch
 Patch4:		c_icap-domain_strip.diff
 Patch5:		c_icap-c23-release-auth-header.patch
 Patch6:		c_icap-modern-c-fixes.patch
+BuildRequires:	libtool
 BuildRequires:	libtool-base
-BuildRequires:	slibtool
 BuildRequires:	clamav-devel
 BuildRequires:	chrpath
 BuildRequires:	dos2unix
@@ -127,12 +127,15 @@ cp %{SOURCE3} icapd.logrotate
 
 %build
 export WANT_AUTOCONF_2_5=1
+# GNU libtool (not slibtool): utils/ still hard-depends on ../libicapapi.la
 libtoolize --copy --force; aclocal; autoconf; automake --foreign --add-missing --copy
 
 export LIBS="-lpthread -ldl"
 export ICAP_DIR=`pwd`
 # c-icap 0.3.5 is pre-C99/C23; keep it building under modern clang
-export CFLAGS="%{optflags} -std=gnu17 -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-int-conversion -Wno-deprecated-non-prototype"
+# LTO breaks this tree's libtool link of libicapapi.la under clang
+export CFLAGS="%{optflags} -std=gnu17 -fno-lto -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wno-int-conversion -Wno-deprecated-non-prototype"
+export LDFLAGS="%{build_ldflags} -fno-lto"
 
 %configure2_5x \
     --disable-static \
@@ -140,7 +143,9 @@ export CFLAGS="%{optflags} -std=gnu17 -Wno-implicit-function-declaration -Wno-in
     --with-perl=%{_bindir}/perl \
     --with-ldap
 
-make
+# Sequential: ensure libicapapi.la exists before utils/ recurses
+make -j1 libicapapi.la
+make -j1
 
 %install
 %makeinstall_std CONFIGDIR=%{_sysconfdir}/icapd
