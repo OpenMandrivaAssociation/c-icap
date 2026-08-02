@@ -7,8 +7,8 @@
 Summary:	An ICAP server coded in C
 Name:		c-icap
 Version:	0.3.5
-Release:	8
-License:	GPL
+Release:	9
+License:	GPLv2+
 Group:		System/Servers
 URL:		https://sourceforge.net/projects/c-icap/
 Source0:	http://prdownloads.sourceforge.net/c-icap/c_icap-%{version}.tar.gz
@@ -16,6 +16,7 @@ Source1:	c-icap.service
 Source2:	icapd.sysconfig
 Source3:	icapd.logrotate
 Source4:	c-icap-tmpfiles.conf
+Source5:	c-icap.rpmlintrc
 Patch0:		c_icap-mdv_conf.diff
 Patch1:		c_icap-makefile.patch
 Patch2:		c_icap-030606-perllib_fix.patch
@@ -34,9 +35,8 @@ BuildRequires:	bzip2-devel
 BuildRequires:	pkgconfig(libidn)
 BuildRequires:	gmp-devel
 BuildRequires:	pkgconfig(openssl)
-BuildRequires:  doxygen
-BuildRequires:  db-devel
-BuildRequires:  file
+BuildRequires:	db-devel
+BuildRequires:	file
 BuildRequires:	pkgconfig(ldap)
 Epoch:		%{epoch}
 Requires(pre,post):	rpm-helper
@@ -63,7 +63,7 @@ Group:		Development/C
 Requires:	%{libname} = %{epoch}:%{version}-%{release}
 Provides:	%{name}-devel = %{epoch}:%{version}-%{release}
 Provides:	lib%{name}-devel = %{epoch}:%{version}-%{release}
-Obsoletes:	%{mklibname c-icap 0 -d}
+Obsoletes:	%{mklibname c-icap 0 -d} < %{epoch}:%{version}-%{release}
 
 %description -n %{develname}
 This package contains the static %{libname} library and its header

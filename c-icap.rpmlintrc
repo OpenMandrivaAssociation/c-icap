@@ -1,0 +1,3 @@
+# False positive: %package -n %{libname} matches rpmlint's ^%package.*\Wlib regex;
+# the library packages are correctly defined via %mklibname.
+addFilter("lib-package-without-%mklibname")
